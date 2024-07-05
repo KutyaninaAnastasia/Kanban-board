@@ -1,0 +1,12 @@
+@import '../../variables.scss';
+
+.main{
+    width: 100%;
+    min-height: 90vh;
+    background-color: $base-color;
+    padding: 20px;
+
+    @media screen and (max-width: 425px) {
+        padding-top: 102px;
+    }
+}

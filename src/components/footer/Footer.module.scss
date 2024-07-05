@@ -1,0 +1,28 @@
+@import '../../variables.scss';
+
+.footer {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    background-color: $base-secondary;
+    width: 100%;
+    padding: 17px 20px;
+    color: $white;
+
+    @media screen and (max-width: 800px) {
+        display: none;
+    }
+
+    &__left {
+        font-size: 18px;
+        display: flex;
+        gap: 36px;
+    }
+
+    &__right {
+        font-size: 18px;
+        position: absolute;
+        right: 20px;
+        margin-right: 0;
+    }
+}
