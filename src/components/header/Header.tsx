@@ -1,6 +1,7 @@
-import React, { useState, useRef, useEffect  } from "react";
+import React, { useState, useRef} from "react";
 import userImage from "../../img/user-avatar.svg";
 import { ReactComponent as Arrow } from '../../img/arrow-down.svg';
+import useClickOutside from "../hooks/useClickOutside";
 import styles from './Header.module.scss'
 
 const Header = () => {
@@ -11,18 +12,7 @@ const Header = () => {
         setIsMenuOpen(!isMenuOpen);
     }
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-            setIsMenuOpen(false);
-        }
-    };
-
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+    useClickOutside(menuRef, () => setIsMenuOpen(false));
 
     const userLinks = ['Profile', 'Log Out'];
     const listItems = userLinks.map(link => (

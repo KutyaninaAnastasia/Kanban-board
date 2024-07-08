@@ -1,7 +1,8 @@
-import { useState, ChangeEvent, FormEvent, useRef, useEffect, useCallback } from "react";
+import { useState, ChangeEvent, FormEvent, useRef} from "react";
 import { AddTaskProps } from "../../types/types";
 import Input from "../ui/Input";
 import Button from "../ui/Button";
+import useClickOutside from "../hooks/useClickOutside";
 import styles from './AddTask.module.scss';
 
 
@@ -24,20 +25,9 @@ function AddTask({ formSubmit, setFormVisible }: AddTaskProps) {
         } else {
             setPlaceholder('Title cannot be empty');
         }
-    };
+    }; 
 
-    const handleClickOutside = useCallback((event: MouseEvent) => {
-        if (formRef.current && !formRef.current.contains(event.target as Node)) {
-            setFormVisible(false);
-        }
-    }, [setFormVisible]);
-
-    useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [handleClickOutside]);
+    useClickOutside(formRef, () => setFormVisible(false));
 
     return (
         <form ref={formRef} onSubmit={handleFormSubmit} className={styles.form}>

@@ -1,9 +1,10 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ListProps, LIST_TYPES } from "../../types/types";
 import Button from "../ui/Button";
 import DropDown from "../ui/DropDown";
 import AddTask from "../add-task/AddTask";
+import useClickOutside from "../hooks/useClickOutside";
 import styles from './Board.module.scss';
 
 const TaskListBoard = ({
@@ -26,22 +27,7 @@ const TaskListBoard = ({
         setFormVisible(false);
     };
 
-    const handleClickOutside = (event: MouseEvent) => {
-        if (formRef.current && !formRef.current.contains(event.target as Node)) {
-            setFormVisible(false);
-        }
-    };
-
-    useEffect(() => {
-        if (isFormVisible) {
-            document.addEventListener('mousedown', handleClickOutside);
-        } else {
-            document.removeEventListener('mousedown', handleClickOutside);
-        }
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [isFormVisible]);
+    useClickOutside(formRef, () => setFormVisible(false));
 
     const activeTasks = allTasks.filter((task) => task.status === LIST_TYPES.BACKLOG).length;
     const readyTasks = allTasks.filter((task) => task.status === LIST_TYPES.READY).length;

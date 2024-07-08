@@ -15,8 +15,17 @@ const App = () => {
     window.localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
-  const activeTasks = tasks.filter(task => task.status === 'backlog' || task.status === 'ready' || task.status === 'inProgress').length;
-  const finishedTasks = tasks.filter(task => task.status === 'finished').length;
+  const { activeTasks, finishedTasks } = tasks.reduce(
+    (counts, task) => {
+      if (['backlog', 'ready', 'inProgress'].includes(task.status)) {
+        counts.activeTasks++;
+      } else if (task.status === 'finished') {
+        counts.finishedTasks++;
+      }
+      return counts;
+    },
+    { activeTasks: 0, finishedTasks: 0 }
+  );
 
   return (
     <div className="App-wrapper">
